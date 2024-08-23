@@ -20,12 +20,14 @@ const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextF
     });
 };
 
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', async (_req: Request, res: Response) => {    
     try {
+        
         const posts = await Post.find().populate('author', 'username');
-        res.json([{ success: true, data: posts }]);
-
+        console.log('Posts:', posts);
+        res.status(200).json({ success: true, data: posts });
     } catch (error) {
+        console.error('Error fetching posts:', error);
         res.status(400).send('Error fetching posts');
     }
 });
@@ -40,7 +42,6 @@ router.post('/', authenticateToken, async (req: AuthenticatedRequest, res: Respo
         res.status(400).send('Error creating post');
     }
 });
-
 
 
 router.put('/:id', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
