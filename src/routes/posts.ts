@@ -21,7 +21,6 @@ const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextF
 };
 
 router.get('/', async (_req: Request, res: Response) => {
-    console.log(`Received a GET request on ${_req.url}`);
     try {
         const posts = await Post.find().populate('author', 'username');
         res.json([{ success: true, data: posts }]);
